@@ -1,0 +1,13 @@
+{
+    "name": "Ma",
+    "version": "1.0",
+    "description": "Generates statistics of websites you've been on",
+    "permissions": [
+	"tabs", "storage"
+    ],
+    "background": {"scripts": ["background.js"] },
+    "browser_action": {
+	"default_title": "Ma"
+    },
+    "manifest_version": 2
+}

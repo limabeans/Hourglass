@@ -29,8 +29,6 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
     });
 });
 
-
-
 //function responsible for updating the list in timelog.html
 updateList = function(title) {
     var time = new Date();

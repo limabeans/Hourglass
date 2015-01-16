@@ -46,3 +46,16 @@ var initButtons = function() {
 };
 
 initButtons();
+
+
+
+//BETA--.
+
+chrome.runtime.onConnect.addListener(function(port) {
+    if (port.name == 'beta') {
+	port.onMessage.addListener(function(message) {
+	    var node = document.createTextNode(message.msg);
+	    document.getElementById("port").appendChild(node);
+	});
+    }
+});

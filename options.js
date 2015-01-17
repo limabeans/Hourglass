@@ -26,13 +26,3 @@ var saveOptions = function() {
 document.getElementById('save').addEventListener('click', 
 						 saveOptions);
 
-//BETA--.
-
-var port = chrome.runtime.connect({name: "beta"});
-
-var portButton = function() {
-    port.postMessage({msg: "port from options!"});
-};
-
-document.getElementById('portbutton').addEventListener('click',
-						       portButton);

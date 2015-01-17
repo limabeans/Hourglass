@@ -18,17 +18,7 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse) {
     if(message.titleColor) {
 	var titleId = document.getElementById("title");
 	titleId.style.color = message.titleColor;
-    } else {
-	//Else: came from background.js
-	//For updating the bullets on timelog.html
-	//Consider switching from messages to direct connections.
-	var list = document.getElementById(message.div);
-	var textNode = document.createTextNode(message.text);
-	var bullet = document.createElement(message.elemType);
-	bullet.appendChild(textNode);
-	
-	list.appendChild(bullet);
-    }
+    } 
 });
 
 //Function that adds functionality to clear button.
@@ -44,18 +34,19 @@ var clearButton = function() {
 var initButtons = function() {
     clearButton();
 };
-
 initButtons();
 
 
-
-//BETA--.
-
+//Add port listener. Supports the timelog port from background.js
 chrome.runtime.onConnect.addListener(function(port) {
-    if (port.name == 'beta') {
+    if(port.name == 'timelog') {
 	port.onMessage.addListener(function(message) {
-	    var node = document.createTextNode(message.msg);
-	    document.getElementById("port").appendChild(node);
+	    var list = document.getElementById(message.div);
+	    var textNode = document.createTextNode(message.text);
+	    var bullet = document.createElement(message.elemType);
+	    bullet.appendChild(textNode);
+	    list.appendChild(bullet);
 	});
     }
 });
+

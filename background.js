@@ -29,13 +29,17 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
     });
 });
 
+
 //function responsible for updating the list in timelog.html
 updateList = function(title) {
     var time = new Date();
     var txt = time.getHours() + ':' + time.getMinutes() +
 	' - ' + title;
-    //sends a message to timelog.js
-    chrome.runtime.sendMessage({
+    //Not sure yet why I couldn't have declared this globally.
+    //Was getting a port disconnected error.
+    var logPort = chrome.runtime.connect({name: 'timelog'});    
+    //Now sending all logs through logPort.
+    logPort.postMessage({
 	div: 'list',
 	elemType: 'li',
 	text: txt

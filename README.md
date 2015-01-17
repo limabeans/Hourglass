@@ -1,4 +1,4 @@
-# Ma #
+# Hourglass #
 google chrome extension that tracks statistics of the websites you've been on
 
 ## random todos ##

@@ -8,13 +8,11 @@ var getPreviousOptions = function() {
 	titleId.style.color = items.titleColor;
     });
 };
-
 getPreviousOptions();
 
-//Listener: Expects messages of the new timelogs from background.js
+//Listener: Mainly responsible for listening for setting changes
+//from options.js
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse) {
-    //If: came from options.js
-    //For changed the title color.
     if(message.titleColor) {
 	var titleId = document.getElementById("title");
 	titleId.style.color = message.titleColor;

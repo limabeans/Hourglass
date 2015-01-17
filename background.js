@@ -1,4 +1,8 @@
-//LISTENER: listening for when the user clicks on the icon
+//Updated vs Activated Listeners
+//Updated: when you change the url, tends to be called more than once
+//Activated: when one switches to tab
+
+//Listener: listening for when the user clicks on the icon
 chrome.browserAction.onClicked.addListener(function() {
     timelogNewTab();
 });
@@ -11,21 +15,17 @@ timelogNewTab = function() {
     });
 };
 
-//Updated vs Activated Listeners
-//UPDATED: when you change the url, tends to be called more than once
-//ACTIVATED: when one switches to tab
-
-//LISTENER: onUpdated listener
+//Listener: onUpdated listener
 chrome.tabs.onUpdated.addListener( function(tabId, changeInfo, tab) {
     updateList(tab.title);
-    console.log('updated' + tab.title + ' ' + Date.now());
+    console.log('[updated] ' + tab.title + ' ' + Date.now());
 });
 
-//LISTENER: onActivated listener
+//Listener: onActivated listener
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     chrome.tabs.get(activeInfo.tabId, function(tab) {
 	updateList(tab.title);
-	console.log('activated' + tab.title + ' ' + Date.now());
+	console.log('[activated] ' + tab.title + ' ' + Date.now());
     });
 });
 

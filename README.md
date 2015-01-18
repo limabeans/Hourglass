@@ -15,4 +15,5 @@ google chrome extension that tracks statistics of the websites you've been on
 
 
 ## to-fix ##
+* I suspect that this will fix itself once I am updating a database rather than writing html to timelog.html. <strike>Must create timelog.html immediatelly in the background, or else nothing will get logged.</strike>
 * Create timelog.html immediately within background.js so that the user can set settings in options.html and have it reflected by the time they click the browser action. Although I think that I don't have to worry about this anymore because of getPreviousOptions() in timelog.js

@@ -2,6 +2,8 @@
 google chrome extension that tracks statistics of the websites you've been on
 
 ## random todos ##
+* Integrate this with google drive!@
+* Make sure you only account for active windows and active tabs for accounting for time.
 * <strike>figure out how to do local storage (and possible sync with google accounts)</strike>
 * <strike>settings page (i.e. local storage)</strike>
 * Figured basics of local storage for options.html -- Now need to worry about how to use HTML5 database of some sort; can't rely on chrome.storage for large amounts of data. 

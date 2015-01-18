@@ -76,8 +76,8 @@ chrome.runtime.onConnect.addListener(function(port) {
     if(port.name === 'entryPort') {
 	port.onMessage.addListener(function(message) {
 	    addToDatabase(message);
-	    //addBulletToDOM(message);
 	    addEntryToTable(message);
+	    console.log(message.started.getFullYear());
 	});
     }
 });

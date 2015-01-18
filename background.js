@@ -88,6 +88,7 @@ ignoreTheseWebsites = function(tab) {
     return false;
 };
 
+//starte and ended Objects become dead once sent through Port.
 function Entry(created, totTime, d, u, t) {
     this.key = created.getTime();
     this.started = created; 

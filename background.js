@@ -16,31 +16,7 @@ chrome.browserAction.onClicked.addListener(function() {
 chrome.tabs.onUpdated.addListener( function(tabId, changeInfo, tab) {
     //Don't want to be concerned with websites that aren't loaded.
     if(changeInfo.status === 'complete') {
-	var entry = new Entry(new Date(), 0,
-			      'top domain here', 'tag', 
-			      tab.url, tab.title );
-	if(currEntry==null) {
-	    if(!ignoreTheseWebsites(tab)) {
-		currEntry=entry;
-		console.log('denullified- ' + currEntry.title);
-	    } 
-	    //Otherwise, currEntry remains as null.
-	} else if(entry.url !== currEntry.url) {
-	    //This means that they changed the url.
-	    currEntry.timeRange.ended = new Date();
-	    var startMillis = currEntry.timeRange.started.getTime();
-	    var endMillis = currEntry.timeRange.ended.getTime();
-	    currEntry.totalTime = endMillis - startMillis;
-	    updateList(currEntry);
-	    console.log('[updated]');
-	    //But that url might not be worth making 
-	    //a new entry for.
-	    if(!ignoreTheseWebsites(tab)) {
-		currEntry = entry;
-	    } else {
-		currEntry = null;
-	    }
-	}
+	processTabChanges(tab);
     }
 });
 
@@ -48,39 +24,44 @@ chrome.tabs.onUpdated.addListener( function(tabId, changeInfo, tab) {
 //When the user switches tabs.
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     chrome.tabs.get(activeInfo.tabId, function(tab) {
-	var entry = new Entry(new Date(), 0,
-			      'top domain here', 'tag', 
-			      tab.url, tab.title );
-	if(currEntry==null) {
-	    if(!ignoreTheseWebsites(tab)) {
-		currEntry=entry;
-		console.log('denullified- ' + currEntry.title);
-	    } 
-	    //Otherwise, currEntry remains as null.
-	} else if(entry.url !== currEntry.url) {
-	    //This means that they switched tabs.
-	    currEntry.timeRange.ended = new Date();
-	    var startMillis = currEntry.timeRange.started.getTime();
-	    var endMillis = currEntry.timeRange.ended.getTime();
-	    currEntry.totalTime = endMillis - startMillis;
-	    updateList(currEntry);
-	    console.log('[activated]');
-	    //But that url might not be worth making 
-	    //a new entry for.
-	    if(!ignoreTheseWebsites(tab)) {
-		currEntry = entry;
-	    } else {
-		currEntry = null;
-	    }
-	}
+	processTabChanges(tab);
     });
 });
+
+var processTabChanges = function(tab) {
+    var entry = new Entry(new Date(), 0,
+			  'top domain here', 'tag', 
+			  tab.url, tab.title );
+    if(currEntry==null) {
+	if(!ignoreTheseWebsites(tab)) {
+	    currEntry=entry;
+	    console.log('denullified- ' + currEntry.title);
+	} 
+	//Otherwise, currEntry remains as null.
+    } else if(entry.url !== currEntry.url) {
+	//This means that they switched tabs.
+	currEntry.timeRange.ended = new Date();
+	var startMillis = currEntry.timeRange.started.getTime();
+	var endMillis = currEntry.timeRange.ended.getTime();
+	currEntry.totalTime = endMillis - startMillis;
+	updateList(currEntry);
+	console.log('[activated]');
+	//But that url might not be worth making 
+	//a new entry for.
+	if(!ignoreTheseWebsites(tab)) {
+	    currEntry = entry;
+	} else {
+	    currEntry = null;
+	}
+    }
+    
+};
 
 
 //Function responsible for updating the list in timelog.html.
 updateList = function(entry) {
     var txt = entry.timeRange.started + ' - ' +
-	entry.totalTime + ' - ' + entry.domain + 
+	entry.totalTime + 'ms - ' + entry.domain + 
 	' - ' + entry.tag + ' - ' + entry.url + 
 	' - ' + entry.title;
     //Not sure yet why I couldn't have declared this globally.
@@ -92,7 +73,6 @@ updateList = function(entry) {
 	elemType: 'li',
 	text: txt
     });
-    console.log('CURR ENTRY ' + currEntry.title);
 };
 
 ignoreTheseWebsites = function(tab) {

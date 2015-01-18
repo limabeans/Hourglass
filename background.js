@@ -42,15 +42,19 @@ var processTabChanges = function(tab) {
 	} 
 	//Otherwise, currEntry remains as null.
     } else if(entry.url !== currEntry.url) {
-	//This means that they switched tabs.
-	currEntry.ended = new Date();
-	var startMillis = currEntry.started.getTime();
-	var endMillis = currEntry.ended.getTime();
+	//Temporary ended Date object.
+	var ended = new Date();
+	//Ensure that currEntry.ended is of type String.
+	currEntry.ended = Date(ended);
+	
+	//Calculate total time.
+	var startMillis = (new Date(currEntry.started)).getTime();
+	var endMillis = ended.getTime();
 	currEntry.totalTime = endMillis - startMillis;
 
 	updateDatabase(currEntry);
+	console.log('[TAB processed]');
 
-	console.log('[activated]');
 	//But that url might not be worth making 
 	//a new entry for.
 	if(!ignoreTheseWebsites(tab)) {
@@ -87,7 +91,8 @@ ignoreTheseWebsites = function(tab) {
 //starte and ended Objects become dead once sent through Port.
 function Entry(created, totTime, d, u, t) {
     this.key = created.getTime();
-    this.started = created; 
+    //Ensure that this.started is of type String.
+    this.started = Date(created); 
     this.ended = null;
     this.totalTime = totTime;
     this.domain = d;

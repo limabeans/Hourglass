@@ -13,6 +13,8 @@ google chrome extension that tracks statistics of the websites you've been on
 * Track how long you are actively on the website, vs just have it open in a tab
 * tagging websites as educational vs music vs games vs social media etc...
 
+## bug notes ##
+* Adding new tabs sometimes into database? sometimes?
 
 ## to-fix ##
 * First base integration with database.js. However, still not sure how to load the database at startup. Although for now, that is a minor issue.<strike>Created garbage database in database.js. Apparently, due to async-ness, I can't directly call my add/create/read on database methods, but only hook them up to buttons, and then call them that way. Also, turns out you can't have an object as a key. So probably will use started time as key in database.</strike>

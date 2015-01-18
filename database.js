@@ -76,6 +76,10 @@ chrome.runtime.onConnect.addListener(function(port) {
 	port.onMessage.addListener(function(message) {
 	    addToDatabase(message);
 	    addEntryToTable(message);
+	    //Refresh database details.
+	    //!! Inefficient, so will have to revamp into
+	    //!! possibly another database in the future.
+	    readDatabase();
 	});
     }
 });

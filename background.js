@@ -51,7 +51,7 @@ var processTabChanges = function(tab) {
 	var startMillis = (new Date(currEntry.started)).getTime();
 	var endMillis = ended.getTime();
 	currEntry.totalTime = endMillis - startMillis;
-
+	//!! BUG. Adding new tabs unfortunately... sometimes.?
 	updateDatabase(currEntry);
 	console.log('[TAB processed]');
 
@@ -59,6 +59,7 @@ var processTabChanges = function(tab) {
 	//a new entry for.
 	if(!ignoreTheseWebsites(tab)) {
 	    currEntry = entry;
+
 	} else {
 	    currEntry = null;
 	}

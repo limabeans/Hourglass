@@ -34,7 +34,7 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
 
 var processTabChanges = function(tab) {
     var entry = new Entry(new Date(), 0,
-			  'top domain here', 'tag', 
+			  'top domain here', 
 			  tab.url, tab.title );
     if(currEntry==null) {
 	if(!ignoreTheseWebsites(tab)) {
@@ -66,7 +66,7 @@ var processTabChanges = function(tab) {
 updateList = function(entry) {
     var txt = entry.timeRange.started + ' - ' +
 	entry.totalTime + 'ms - ' + entry.domain + 
-	' - ' + entry.tag + ' - ' + entry.url + 
+	' - ' + ' - ' + entry.url + 
 	' - ' + entry.title;
     //Not sure yet why I couldn't have declared this globally.
     //Was getting a port disconnected error.
@@ -89,12 +89,11 @@ ignoreTheseWebsites = function(tab) {
     return false;
 };
 
-function Entry(create, totTime, d, t, u, ti) {
+function Entry(create, totTime, d, u, t) {
     this.timeRange = {started: create,
 		      ended: null};
     this.totalTime = totTime;
     this.domain = d;
-    this.tag = t;
     this.url = u;
-    this.title = ti;
+    this.title = t;
 }

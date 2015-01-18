@@ -8,7 +8,7 @@
     "options_page": "options.html",
     "background": {"scripts": ["background.js"] },
     "browser_action": {
-	"default_title": "Ma"
+	"default_title": "Hourglass"
     },
     "manifest_version": 2
 }

@@ -34,9 +34,10 @@ var initButtons = function() {
 };
 initButtons();
 
+//Deprecated.
 var addBulletToDOM = function(entryObject) {
     var list = document.getElementById('list');
-    var entryText = entryObject.key+' ('+entryObject.totalTime+'ms) - '+entryObject.url;
+    var entryText = entryObject.key+' ('+entryObject.totalTime+'ms) - '+entryObject.domain;
     var textNode = document.createTextNode(entryText);
     var bullet = document.createElement('li');
     bullet.appendChild(textNode);
@@ -50,12 +51,12 @@ var addEntryToTable = function(entryObject) {
 
     var id = document.createTextNode(entryObject.key);
     var time = document.createTextNode(entryObject.totalTime);
-    var url = document.createTextNode(entryObject.url);
+    var domain = document.createTextNode(entryObject.domain);
 
     var idCell = newRow.insertCell(0);
     idCell.appendChild(id);
     var timeCell = newRow.insertCell(1);
     timeCell.appendChild(time);
-    var urlCell = newRow.insertCell(2);
-    urlCell.appendChild(url);
+    var domainCell = newRow.insertCell(2);
+    domainCell.appendChild(domain);
 };

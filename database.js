@@ -32,7 +32,6 @@ var initDatabase = function(name, version) {
 };
 
 var addToDatabase = function(entryObject) {
-    //{started: 1234,totalTime: 0,domain: 'top domain here',url: 'sum url',title: 'sum title' }
     var objectStore = entryDatabase.transaction("store", "readwrite").objectStore("store");
     var request = objectStore.add(entryObject);
     request.onsuccess = function(e) {
@@ -48,7 +47,7 @@ var readDatabase = function() {
     document.getElementById('list').innerHTML = "";
     //Reset the table.
     document.getElementById('entryTable').innerHTML = 
-	"<tr><th>id</th> <th>total time (ms)</th> <th>url</th></tr>";
+	"<tr><th>id</th> <th>total time (ms)</th> <th>domain</th></tr>";
 
     var trans = entryDatabase.transaction('store');
     var objectStore = trans.objectStore('store');
@@ -57,7 +56,7 @@ var readDatabase = function() {
 	if(cursor) {
 	    //Note: IndexedDB didn't store toString().
 	    //Note: Ports don't seem to play well w/ toString() either.
-	    var entryText = cursor.value.key+' ('+cursor.value.totalTime+'ms) - '+cursor.value.url;
+	    var entryText = cursor.value.key+' ('+cursor.value.totalTime+'ms) - '+cursor.value.domain;
 	    console.log(entryText);
 	    //Append to 'list'.
 	    //addBulletToDOM(cursor.value);
@@ -77,7 +76,6 @@ chrome.runtime.onConnect.addListener(function(port) {
 	port.onMessage.addListener(function(message) {
 	    addToDatabase(message);
 	    addEntryToTable(message);
-	    console.log(message.started.getFullYear());
 	});
     }
 });

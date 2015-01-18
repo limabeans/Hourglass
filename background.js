@@ -32,9 +32,9 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
 });
 
 var processTabChanges = function(tab) {
+    var domain = (new URI(tab.url)).hostname();
     var entry = new Entry(new Date(), 0,
-			  'top domain here', 
-			  tab.url, tab.title );
+			  domain, tab.url, tab.title); 
     if(currEntry==null) {
 	if(!ignoreTheseWebsites(tab)) {
 	    currEntry=entry;
@@ -64,11 +64,6 @@ var processTabChanges = function(tab) {
 
 //Function responsible for sending a package of entryObject details.
 updateDatabase = function(entryObj) {
-    // var txt = entryObj.started + ' - ' +
-    // 	entryObj.totalTime + 'ms - ' + entryObj.domain + 
-    // 	' - ' + ' - ' + entryObj.url + 
-    // 	' - ' + entryObj.title;
-    var txt = entryObj.toString();
     //Not sure yet why I couldn't have declared this globally.
     //Was getting a port disconnected error.
     var entryPort = chrome.runtime.connect({name: 'entryPort'});    
@@ -100,7 +95,8 @@ function Entry(created, totTime, d, u, t) {
     //Note: IndexedDB will not store the functions of an object.
     this.toString = function() {
 	var str = this.key+' ('+this.totalTime+'ms) - ' + 
-	    this.url;
+	    this.domain;
 	return str;
     };
 }
+

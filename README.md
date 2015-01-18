@@ -15,7 +15,7 @@ google chrome extension that tracks statistics of the websites you've been on
 
 
 ## to-fix ##
-* Created garbage database in database.js. Apparently, due to async-ness, I can't directly call my add/create/read on database methods, but only hook them up to buttons, and then call them that way. Also, turns out you can't have an object as a key. So probably will use started time as key in database.
+* First base integration with database.js. However, still not sure how to load the database at startup. Although for now, that is a minor issue.<strike>Created garbage database in database.js. Apparently, due to async-ness, I can't directly call my add/create/read on database methods, but only hook them up to buttons, and then call them that way. Also, turns out you can't have an object as a key. So probably will use started time as key in database.</strike>
 * Ignore the settings page
 * I suspect that this will fix itself once I am updating a database rather than writing html to timelog.html. <strike>Must create timelog.html immediatelly in the background, or else nothing will get logged.</strike>
 * Create timelog.html immediately within background.js so that the user can set settings in options.html and have it reflected by the time they click the browser action. Although I think that I don't have to worry about this anymore because of getPreviousOptions() in timelog.js

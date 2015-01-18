@@ -43,9 +43,13 @@ var addToDatabase = function(entryObject) {
     };
 };
 var readDatabase = function() {
-    //Reset 'list'.
     console.log('readDatabase DOM refresh.');
+    //Reset 'list'. 
     document.getElementById('list').innerHTML = "";
+    //Reset the table.
+    document.getElementById('entryTable').innerHTML = 
+	"<tr><th>id</th> <th>total time (ms)</th> <th>url</th></tr>";
+
     var trans = entryDatabase.transaction('store');
     var objectStore = trans.objectStore('store');
     objectStore.openCursor().onsuccess = function(event) {
@@ -56,7 +60,8 @@ var readDatabase = function() {
 	    var entryText = cursor.value.key+' ('+cursor.value.totalTime+'ms) - '+cursor.value.url;
 	    console.log(entryText);
 	    //Append to 'list'.
-	    addBulletToDOM(cursor.value);
+	    //addBulletToDOM(cursor.value);
+	    addEntryToTable(cursor.value);
 	    cursor.continue();
 	} else {
 	    console.log('End of database read.');
@@ -71,7 +76,8 @@ chrome.runtime.onConnect.addListener(function(port) {
     if(port.name === 'entryPort') {
 	port.onMessage.addListener(function(message) {
 	    addToDatabase(message);
-	    addBulletToDOM(message);
+	    //addBulletToDOM(message);
+	    addEntryToTable(message);
 	});
     }
 });

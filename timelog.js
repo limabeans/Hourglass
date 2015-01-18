@@ -37,7 +37,6 @@ initButtons();
 var addBulletToDOM = function(entryObject) {
     var list = document.getElementById('list');
     var entryText = entryObject.key+' ('+entryObject.totalTime+'ms) - '+entryObject.url;
-
     var textNode = document.createTextNode(entryText);
     var bullet = document.createElement('li');
     bullet.appendChild(textNode);
@@ -45,3 +44,18 @@ var addBulletToDOM = function(entryObject) {
 };
 
 
+var addEntryToTable = function(entryObject) {
+    var table = document.getElementById('entryTable');
+    var newRow = table.insertRow(table.rows.length);
+
+    var id = document.createTextNode(entryObject.key);
+    var time = document.createTextNode(entryObject.totalTime);
+    var url = document.createTextNode(entryObject.url);
+
+    var idCell = newRow.insertCell(0);
+    idCell.appendChild(id);
+    var timeCell = newRow.insertCell(1);
+    timeCell.appendChild(time);
+    var urlCell = newRow.insertCell(2);
+    urlCell.appendChild(url);
+};

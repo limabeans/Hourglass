@@ -1,7 +1,7 @@
 //Holds the current entry.
 //If currEntry is null, that means that either Hourglass
 //just started running, or that the user has visited an
-//'ignoreThisWebsite' page, and currEntry has been nullified.
+//'ignoreTheseWebsites' page, and currEntry has been nullified.
 var currEntry = null;
 
 //Listener: listening for when the user clicks on the icon
@@ -74,7 +74,8 @@ updateDatabase = function(entryObj) {
 
 
 ignoreTheseWebsites = function(tab) {
-    if(tab.title === 'Time Log' || tab.title === 'Extensions' ||
+    if(tab.title === 'Hourglass' || tab.title === 'Extensions' ||
+       tab.title === 'Hourglass Settings' ||
        tab.url === 'chrome://newtab/' || tab.title === 'New Tab' || 
        tab.title === 'Loading...') {
 	console.log('A website was ignored from logging.');

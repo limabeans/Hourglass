@@ -42,13 +42,11 @@ var addToDatabase = function(entryObject) {
     };
 };
 var readDatabase = function() {
+    var lifetime=0;
     console.log('readDatabase DOM refresh.');
-    //Reset 'list'. 
-    document.getElementById('list').innerHTML = "";
     //Reset the table.
     document.getElementById('entryTable').innerHTML = 
 	"<tr><th>id</th> <th>total time (ms)</th> <th>domain</th></tr>";
-
     var trans = entryDatabase.transaction('store');
     var objectStore = trans.objectStore('store');
     objectStore.openCursor().onsuccess = function(event) {
@@ -58,11 +56,13 @@ var readDatabase = function() {
 	    //Note: Ports don't seem to play well w/ toString() either.
 	    var entryText = cursor.value.key+' ('+cursor.value.totalTime+'ms) - '+cursor.value.domain;
 	    console.log(entryText);
-	    //Append to 'list'.
-	    //addBulletToDOM(cursor.value);
+
 	    addEntryToTable(cursor.value);
+	    //Increment lifetime.
+	    lifetime+=cursor.value.totalTime;
 	    cursor.continue();
 	} else {
+	    document.getElementById('lifetime').innerHTML=lifetime;
 	    console.log('End of database read.');
 	}
     };

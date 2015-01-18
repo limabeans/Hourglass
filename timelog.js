@@ -34,10 +34,11 @@ var initButtons = function() {
 };
 initButtons();
 
-var addBulletToDOM = function(entryObject) {
-    var list = document.getElementById(entryObject.div);
-    var textNode = document.createTextNode(entryObject.text);
-    var bullet = document.createElement(entryObject.elemType);
+var addBulletToDOM = function(pkg) {
+    var list = document.getElementById(pkg.div);
+    var textNode = document.createTextNode(pkg.text);
+    var bullet = document.createElement(pkg.elemType);
+    var entryObj = pkg.entryObject;
     bullet.appendChild(textNode);
     list.appendChild(bullet);
 

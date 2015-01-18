@@ -72,6 +72,7 @@ var readDatabase = function() {
 chrome.runtime.onConnect.addListener(function(port) {
     if(port.name === 'entryPort') {
 	port.onMessage.addListener(function(message) {
+	    var entryObject = message.entryObject;
 	    //add to database here!
 	    addBulletToDOM(message);
 	});

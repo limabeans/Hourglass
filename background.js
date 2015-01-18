@@ -43,9 +43,9 @@ var processTabChanges = function(tab) {
 	//Otherwise, currEntry remains as null.
     } else if(entry.url !== currEntry.url) {
 	//This means that they switched tabs.
-	currEntry.timeRange.ended = new Date();
-	var startMillis = currEntry.timeRange.started.getTime();
-	var endMillis = currEntry.timeRange.ended.getTime();
+	currEntry.ended = new Date();
+	var startMillis = currEntry.started.getTime();
+	var endMillis = currEntry.ended.getTime();
 	currEntry.totalTime = endMillis - startMillis;
 
 	updateDatabase(currEntry);
@@ -66,7 +66,7 @@ var processTabChanges = function(tab) {
 updateDatabase = function(entry) {
     //Possibly talk to a database.js?
     //Need to add entry here
-    var txt = entry.timeRange.started + ' - ' +
+    var txt = entry.started + ' - ' +
 	entry.totalTime + 'ms - ' + entry.domain + 
 	' - ' + ' - ' + entry.url + 
 	' - ' + entry.title;
@@ -77,7 +77,8 @@ updateDatabase = function(entry) {
     entryPort.postMessage({
 	div: 'list',
 	elemType: 'li',
-	text: txt
+	text: txt,
+	entryObject: entry
     });
 };
 
@@ -93,9 +94,9 @@ ignoreTheseWebsites = function(tab) {
     return false;
 };
 
-function Entry(create, totTime, d, u, t) {
-    this.timeRange = {started: create,
-		      ended: null};
+function Entry(created, totTime, d, u, t) {
+    this.started = created; 
+    this.ended = null;
     this.totalTime = totTime;
     this.domain = d;
     this.url = u;

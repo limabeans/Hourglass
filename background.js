@@ -14,7 +14,6 @@ chrome.browserAction.onClicked.addListener(function() {
 });
 
 
-
 //Listener: onUpdated 
 //When the user changes url. Tends to be called multiple times.
 chrome.tabs.onUpdated.addListener( function(tabId, changeInfo, tab) {
@@ -48,7 +47,9 @@ var processTabChanges = function(tab) {
 	var startMillis = currEntry.timeRange.started.getTime();
 	var endMillis = currEntry.timeRange.ended.getTime();
 	currEntry.totalTime = endMillis - startMillis;
-	updateList(currEntry);
+
+	updateDatabase(currEntry);
+
 	console.log('[activated]');
 	//But that url might not be worth making 
 	//a new entry for.
@@ -58,26 +59,29 @@ var processTabChanges = function(tab) {
 	    currEntry = null;
 	}
     }
-    
 };
 
 
 //Function responsible for updating the list in timelog.html.
-updateList = function(entry) {
+updateDatabase = function(entry) {
+    //Possibly talk to a database.js?
+    //Need to add entry here
     var txt = entry.timeRange.started + ' - ' +
 	entry.totalTime + 'ms - ' + entry.domain + 
 	' - ' + ' - ' + entry.url + 
 	' - ' + entry.title;
     //Not sure yet why I couldn't have declared this globally.
     //Was getting a port disconnected error.
-    var logPort = chrome.runtime.connect({name: 'timelog'});    
-    //Now sending all logs through logPort.
-    logPort.postMessage({
+    var entryPort = chrome.runtime.connect({name: 'entryPort'});    
+    //Now sending all logs through entryPort.
+    entryPort.postMessage({
 	div: 'list',
 	elemType: 'li',
 	text: txt
     });
 };
+
+
 
 ignoreTheseWebsites = function(tab) {
     if(tab.title === 'Time Log' || tab.title === 'Extensions' ||

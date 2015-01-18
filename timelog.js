@@ -34,17 +34,13 @@ var initButtons = function() {
 };
 initButtons();
 
+var addBulletToDOM = function(entryObject) {
+    var list = document.getElementById(entryObject.div);
+    var textNode = document.createTextNode(entryObject.text);
+    var bullet = document.createElement(entryObject.elemType);
+    bullet.appendChild(textNode);
+    list.appendChild(bullet);
 
-//Add port listener. Supports the timelog port from background.js
-chrome.runtime.onConnect.addListener(function(port) {
-    if(port.name == 'timelog') {
-	port.onMessage.addListener(function(message) {
-	    var list = document.getElementById(message.div);
-	    var textNode = document.createTextNode(message.text);
-	    var bullet = document.createElement(message.elemType);
-	    bullet.appendChild(textNode);
-	    list.appendChild(bullet);
-	});
-    }
-});
+};
+
 

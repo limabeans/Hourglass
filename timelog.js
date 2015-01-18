@@ -34,14 +34,14 @@ var initButtons = function() {
 };
 initButtons();
 
-var addBulletToDOM = function(pkg) {
-    var list = document.getElementById(pkg.div);
-    var textNode = document.createTextNode(pkg.text);
-    var bullet = document.createElement(pkg.elemType);
-    var entryObj = pkg.entryObject;
+var addBulletToDOM = function(entryObject) {
+    var list = document.getElementById('list');
+    var entryText = entryObject.key+' ('+entryObject.totalTime+'ms) - '+entryObject.url;
+
+    var textNode = document.createTextNode(entryText);
+    var bullet = document.createElement('li');
     bullet.appendChild(textNode);
     list.appendChild(bullet);
-
 };
 
 

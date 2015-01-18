@@ -2,8 +2,14 @@
 //Global variable for database. 
 //Probably have to refactor this sometime.
 var entryDatabase;
+var wipe = function() {
+    indexedDB.deleteDatabase('entryDatabase');
+    console.log('entryDatabase wiped');
+    //Reload the page, ignore cache.
+    location.reload(true);
+};
 
-var createDatabase = function(name, version) {
+var initDatabase = function(name, version) {
     var request = indexedDB.open(name, version);
     request.onerror = function(e) {
 	console.log('Error creating database: ' +
@@ -21,20 +27,14 @@ var createDatabase = function(name, version) {
 	var dbRef = e.target.result;
 	var objectStore = dbRef.createObjectStore(
 	    'store', 
-	    {keyPath: 'timeRange'});
+	    {keyPath: 'key'});
     };
 };
 
-var addToDatabase = function() {
+var addToDatabase = function(entryObject) {
+    //{started: 1234,totalTime: 0,domain: 'top domain here',url: 'sum url',title: 'sum title' }
     var objectStore = entryDatabase.transaction("store", "readwrite").objectStore("store");
-    var request = objectStore.add({
-	timeRange: 1234,
-	totalTime: 0,
-	domain: 'top domain here', 
-	url: 'sum url', 
-	title: 'sum title' 
-    });
-
+    var request = objectStore.add(entryObject);
     request.onsuccess = function(e) {
 	console.log('successful add');
     };
@@ -42,17 +42,21 @@ var addToDatabase = function() {
 	console.log('fail to add');
     };
 };
-
-createDatabase('entryDatabase',1);
-
 var readDatabase = function() {
+    //Reset 'list'.
+    console.log('readDatabase DOM refresh.');
+    document.getElementById('list').innerHTML = "";
     var trans = entryDatabase.transaction('store');
     var objectStore = trans.objectStore('store');
     objectStore.openCursor().onsuccess = function(event) {
 	var cursor = event.target.result;
 	if(cursor) {
-	    console.log(cursor.value.totalTime + 
-			cursor.value.title);
+	    //Note: IndexedDB didn't store toString().
+	    //Note: Ports don't seem to play well w/ toString() either.
+	    var entryText = cursor.value.key+' ('+cursor.value.totalTime+'ms) - '+cursor.value.url;
+	    console.log(entryText);
+	    //Append to 'list'.
+	    addBulletToDOM(cursor.value);
 	    cursor.continue();
 	} else {
 	    console.log('End of database read.');
@@ -60,24 +64,24 @@ var readDatabase = function() {
     };
 };
 
-
-
-//readDatabase(entryDatabase, 'store');
-
-
-
 //Listener: connects with background.js
-//message contains an Entry object.
+//message contains an entryObject.
 //addBulletToDOM is defined in timelog.js
 chrome.runtime.onConnect.addListener(function(port) {
     if(port.name === 'entryPort') {
 	port.onMessage.addListener(function(message) {
-	    var entryObject = message.entryObject;
-	    //add to database here!
+	    addToDatabase(message);
 	    addBulletToDOM(message);
 	});
     }
 });
 
-document.getElementById('add').addEventListener('click',addToDatabase);
+document.getElementById('init').addEventListener('click', function() {initDatabase('entryDatabase',1); });
 document.getElementById('read').addEventListener('click',readDatabase);
+document.getElementById('wipe').addEventListener('click',wipe);
+
+document.addEventListener('DOMContentLoaded', function() {
+    initDatabase('entryDatabase',1);
+    console.log('initDatabase from domcontentloaded.');
+    //Need to find a way to read the database at startup.
+});

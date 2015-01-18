@@ -62,24 +62,18 @@ var processTabChanges = function(tab) {
 };
 
 
-//Function responsible for updating the list in timelog.html.
-updateDatabase = function(entry) {
-    //Possibly talk to a database.js?
-    //Need to add entry here
-    var txt = entry.started + ' - ' +
-	entry.totalTime + 'ms - ' + entry.domain + 
-	' - ' + ' - ' + entry.url + 
-	' - ' + entry.title;
+//Function responsible for sending a package of entryObject details.
+updateDatabase = function(entryObj) {
+    // var txt = entryObj.started + ' - ' +
+    // 	entryObj.totalTime + 'ms - ' + entryObj.domain + 
+    // 	' - ' + ' - ' + entryObj.url + 
+    // 	' - ' + entryObj.title;
+    var txt = entryObj.toString();
     //Not sure yet why I couldn't have declared this globally.
     //Was getting a port disconnected error.
     var entryPort = chrome.runtime.connect({name: 'entryPort'});    
-    //Now sending all logs through entryPort.
-    entryPort.postMessage({
-	div: 'list',
-	elemType: 'li',
-	text: txt,
-	entryObject: entry
-    });
+    //Now sending package through entryPort for database.js
+    entryPort.postMessage(entryObj);
 };
 
 
@@ -95,10 +89,17 @@ ignoreTheseWebsites = function(tab) {
 };
 
 function Entry(created, totTime, d, u, t) {
+    this.key = created.getTime();
     this.started = created; 
     this.ended = null;
     this.totalTime = totTime;
     this.domain = d;
     this.url = u;
     this.title = t;
+    //Note: IndexedDB will not store the functions of an object.
+    this.toString = function() {
+	var str = this.key+' ('+this.totalTime+'ms) - ' + 
+	    this.url;
+	return str;
+    };
 }

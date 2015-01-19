@@ -2,6 +2,12 @@
 Chrome extension that analyzes your web browsing habits to make you more productive.
 
 ## random todos ##
+* Think about when I change workspaces, currently does not detect if the window is in focus.
+* Multiple browsers open?
+* The cross day problem.
+* The 'blackout' problem.
+* DFAish 'graph' web history representation.
+* Storing each day in an objectStore? How I'm representing data in the back-end is actually one of the more important goals.
 * Integrate this with google drive!@
 * Make sure you only account for active windows and active tabs for accounting for time.
 * <strike>figure out how to do local storage (and possible sync with google accounts)</strike>

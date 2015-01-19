@@ -50,9 +50,12 @@ var readDatabase = function() {
     //{domain: {timesAccessed, totalTime} }
     var domainFreqs = {};
     console.log('readDatabase DOM refresh.');
-    //Reset the table.
+    //Reset the tables.
     document.getElementById('entryTable').innerHTML = 
 	"<tr><th>id</th> <th>total time (ms)</th> <th>domain</th></tr>";
+    document.getElementById('statsTable').innerHTML = 
+	"<tr> <th>domain</th><th>times accessed</th><th>time (ms)</th></tr>";
+
     var trans = entryDB.transaction('everyday');
     var objectStore = trans.objectStore('everyday');
     objectStore.openCursor().onsuccess = function(event) {

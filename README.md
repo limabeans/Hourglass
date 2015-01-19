@@ -1,5 +1,7 @@
 # Hourglass #
-Chrome extension that analyzes your web browsing habits to make you more productive. <b>Hourglass is different because the time only ticks for the tab you are actively on.</b> With Hourglass, you can identify down to the millisecond where your precious time is going. Hourglass can also detect and inform you of good and bad trends in your web browsing patterns, and ultimate devise plans so that you can improve.
+Chrome extension that analyzes your web browsing habits to make you more productive. <br><br>
+
+<b>Hourglass is different because the time only ticks for the tab you are actively on.</b> With Hourglass, you can identify down to the millisecond where your precious time is going. Hourglass can also detect and inform you of good and bad trends in your web browsing patterns, and ultimate devise plans so that you can improve.
 
 ## random todos ##
 * Think about when I change workspaces, currently does not detect if the window is in focus.

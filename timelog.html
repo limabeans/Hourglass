@@ -2,6 +2,8 @@
 <html>
   <head>
     <title>Hourglass</title>
+    <link rel="stylesheet" href="chartist.min.css">
+    <script src="chartist.min.js"></script>
     <link href="bootstrap.min.css" rel="stylesheet">
     <link href="hourglass.css" rel="stylesheet">
   </head>
@@ -20,25 +22,29 @@
       <b>Total active time on the web:</b> <span id="lifetime">0</span>ms
       <b>Number of unique domains accessed:</b> <span id="unique">0</span><br>
       <b>Number of tabs viewed or opened:</b> <span id="viewed">0</span>
+      
       <table id="statsTable" border="2" width="300">
 	<tr>
 	  <th>domain</th><th>times accessed</th><th>time (ms)</th>
 	</tr>
       </table>
-      </ul>
     </div>
 
-
+    <div id="middle">
+      <div class="ct-chart ct-perfect-fourth"></div>
+    </div>
 
     <div id="right">
-      <table id="entryTable" border="2" width="600">
+      <table id="entryTable" border="2" width="400">
 	<tr>
 	  <th>id</th> <th>total time (ms)</th> <th>domain</th>
 	</tr>
       </table>
+      <script src="pie.js"></script>
       <script src="timelog.js"></script>
       <script src="database.js"></script>
       <script src="statsDB.js"></script>
+
     </div>
 
   </body>

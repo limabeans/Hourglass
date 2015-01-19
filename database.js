@@ -83,6 +83,8 @@ var readDatabase = function() {
 		domainFreqs[domain] = {timesAccessed:1,
 				       totalTime:cursorTotalTime
 				      };
+		//Generate pie animation.
+		createPie(domainFreqs);
 	    }
 	    
 	    cursor.continue();

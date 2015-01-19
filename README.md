@@ -1,5 +1,5 @@
 # Hourglass #
-Chrome extension that analyzes your web browsing habits to make you more productive. Hourglass is different because the time only ticks for the tab you are actively on. With Hourglass, you will know exactly where your precious time is going. Hourglass can also detect and inform you of good and bad trends in your web browsing patterns, and ultimate devise plans so that you can improve.
+Chrome extension that analyzes your web browsing habits to make you more productive. <b>Hourglass is different because the time only ticks for the tab you are actively on.</b> With Hourglass, you can identify down to the millisecond where your precious time is going. Hourglass can also detect and inform you of good and bad trends in your web browsing patterns, and ultimate devise plans so that you can improve.
 
 ## random todos ##
 * Think about when I change workspaces, currently does not detect if the window is in focus.
@@ -20,7 +20,7 @@ Chrome extension that analyzes your web browsing habits to make you more product
 * tagging websites as educational vs music vs games vs social media etc...
 
 ## bugs ##
-* Essentially getting trolled by async. Need to figure out how to call readDatabase after the database gets modified.. <i>On the first iteration after 'wiping' the database, if you start at homepage, flip to a tab, and back, it won't log until till the next iteration. If that made any sense.</i>
+* I believe I have found what I was looking for: <u>oncomplete</u> function. <strike>Essentially getting trolled by async. Need to figure out how to call readDatabase after the database gets modified.. <i>On the first iteration after 'wiping' the database, if you start at homepage, flip to a tab, and back, it won't log until till the next iteration. If that made any sense.</i></strike>
 * Adding new tabs sometimes into database? sometimes?
 
 ## to-fix ##

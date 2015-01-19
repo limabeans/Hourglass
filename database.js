@@ -40,6 +40,9 @@ var addToDatabase = function(entryObject) {
     request.onerror = function(e) {
 	console.log('fail to add');
     };
+
+    //Lol. Get rid of this call eventually.
+    readDatabase();
 };
 var readDatabase = function() {
     var lifetime=0;
@@ -79,6 +82,9 @@ chrome.runtime.onConnect.addListener(function(port) {
 	    //Refresh database details.
 	    //!! Inefficient, so will have to revamp into
 	    //!! possibly another database in the future.
+	    //I was possibly getting 'lagging' tables because
+	    //of the async nature of addToDatabase and 
+	    //addEntryToTable.
 	    readDatabase();
 	});
     }

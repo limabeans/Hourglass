@@ -3,19 +3,30 @@
   <head>
     <title>Hourglass</title>
     <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="hourglass.css" rel="stylesheet">
   </head>
   <body>
-    <a href="./options.html">Options</a>
-    <button id="read">read db</button>
-    <button id="wipe">wipe db</button>
-    <h1 id="title">Hourglass</h1>
-    <b>Total active time on the web:</b> <span id="lifetime">0</span>ms
-    <table id="entryTable" border="2">
-      <tr>
-	<th>id</th> <th>total time (ms)</th> <th>domain</th>
-      </tr>
-    </table>
-    <script src="timelog.js"></script>
-    <script src="database.js"></script>
+
+    <div id="top">
+      <a href="./options.html">Options</a>
+      <button id="read">read db</button>
+      <button id="wipe">wipe db</button>
+      <h1 id="title">Hourglass</h1>
+      <h2>analyzes your web browsing habits to make you more productive.</h2>
+    </div>
+
+    <div id="left">
+      <table id="entryTable" border="2">
+	<tr>
+	  <th>id</th> <th>total time (ms)</th> <th>domain</th>
+	</tr>
+      </table>
+      <script src="timelog.js"></script>
+      <script src="database.js"></script>
+    </div>
+    <div id="right">
+      <b>Total active time on the web:</b> <span id="lifetime">0</span>ms
+    </div>
+
   </body>
 </html>

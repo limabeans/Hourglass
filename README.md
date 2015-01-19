@@ -14,7 +14,7 @@ Chrome extension that analyzes your web browsing habits to make you more product
 * tagging websites as educational vs music vs games vs social media etc...
 
 ## bugs ##
-* On the first iteration after 'wiping' the database, if you start at homepage, flip to a tab, and back, it won't log until till the next iteration. If that made any sense.
+* Essentially getting trolled by async. Need to figure out how to call readDatabase after the database gets modified.. <i>On the first iteration after 'wiping' the database, if you start at homepage, flip to a tab, and back, it won't log until till the next iteration. If that made any sense.</i>
 * Adding new tabs sometimes into database? sometimes?
 
 ## to-fix ##

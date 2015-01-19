@@ -78,6 +78,12 @@ updateDatabase = function(entryObj) {
 
 
 ignoreTheseWebsites = function(tab) {
+    var uri = new URI(tab.url);
+    //Ignore pesky chrome-extension URLs. 
+    if (uri.protocol()==='chrome-extension') {
+	console.log('blocked the chrome-extension url!');
+	return true;
+    }
     if(tab.title === 'Hourglass' || tab.title === 'Extensions' ||
        tab.title === 'Hourglass Settings' ||
        tab.url === 'chrome://newtab/' || tab.title === 'New Tab' || 

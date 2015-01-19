@@ -3,13 +3,12 @@
 //just started running, or that the user has visited an
 //'ignoreTheseWebsites' page, and currEntry has been nullified.
 var currEntry = null;
-
 //Listener: listening for when the user clicks on the icon
 //and creates new tab
 chrome.browserAction.onClicked.addListener(function() {
     chrome.tabs.create({
-    url: "./timelog.html",
-    active: true
+	url: "./timelog.html",
+	active: true
     });
 });
 

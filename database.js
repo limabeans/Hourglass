@@ -1,10 +1,10 @@
 //indexedDB.deleteDatabase('dbase') to restart.
 //Global variable for database. 
 //Probably have to refactor this sometime.
-var entryDatabase;
+var entryDB;
 var wipe = function() {
-    indexedDB.deleteDatabase('entryDatabase');
-    console.log('entryDatabase wiped');
+    indexedDB.deleteDatabase('entryDB');
+    console.log('entryDB wiped');
     //Reload the page, ignore cache.
     location.reload(true);
 };
@@ -16,8 +16,8 @@ var initDatabase = function(name, version) {
 		    name + ' v' + version);
     };
     request.onsuccess = function(e) {
-	entryDatabase = e.target.result;
-	console.log(entryDatabase);
+	entryDB = e.target.result;
+	console.log(entryDB);
 	console.log('Successfully initialized ' + 
 		    name + ' v' + version);
     };
@@ -26,13 +26,13 @@ var initDatabase = function(name, version) {
 		    version);
 	var dbRef = e.target.result;
 	var objectStore = dbRef.createObjectStore(
-	    'store', 
+	    'everyday', 
 	    {keyPath: 'key'});
     };
 };
 
 var addToDatabase = function(entryObject) {
-    var objectStore = entryDatabase.transaction("store", "readwrite").objectStore("store");
+    var objectStore = entryDB.transaction('everyday', "readwrite").objectStore('everyday');
     var request = objectStore.add(entryObject);
     request.onsuccess = function(e) {
 	console.log('successful add');
@@ -47,8 +47,8 @@ var readDatabase = function() {
     //Reset the table.
     document.getElementById('entryTable').innerHTML = 
 	"<tr><th>id</th> <th>total time (ms)</th> <th>domain</th></tr>";
-    var trans = entryDatabase.transaction('store');
-    var objectStore = trans.objectStore('store');
+    var trans = entryDB.transaction('everyday');
+    var objectStore = trans.objectStore('everyday');
     objectStore.openCursor().onsuccess = function(event) {
 	var cursor = event.target.result;
 	if(cursor) {
@@ -84,12 +84,11 @@ chrome.runtime.onConnect.addListener(function(port) {
     }
 });
 
-document.getElementById('init').addEventListener('click', function() {initDatabase('entryDatabase',1); });
 document.getElementById('read').addEventListener('click',readDatabase);
 document.getElementById('wipe').addEventListener('click',wipe);
 
 document.addEventListener('DOMContentLoaded', function() {
-    initDatabase('entryDatabase',1);
+    initDatabase('entryDB',1);
     console.log('initDatabase from domcontentloaded.');
     //Need to find a way to read the database at startup.
 });

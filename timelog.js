@@ -19,32 +19,6 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse) {
     } 
 });
 
-//Function that adds functionality to clear button.
-var clearButton = function() {
-    var button = document.getElementById("clear");
-    button.addEventListener('click', function() {
-	document.getElementById("list").innerHTML = "";
-    });
-};
-
-
-//Function that 'initializes' functionality of all buttons.
-var initButtons = function() {
-    clearButton();
-};
-initButtons();
-
-//Deprecated.
-var addBulletToDOM = function(entryObject) {
-    var list = document.getElementById('list');
-    var entryText = entryObject.key+' ('+entryObject.totalTime+'ms) - '+entryObject.domain;
-    var textNode = document.createTextNode(entryText);
-    var bullet = document.createElement('li');
-    bullet.appendChild(textNode);
-    list.appendChild(bullet);
-};
-
-
 var addEntryToTable = function(entryObject) {
     var table = document.getElementById('entryTable');
     var newRow = table.insertRow(table.rows.length);

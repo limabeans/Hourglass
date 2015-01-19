@@ -13,7 +13,7 @@ Chrome extension that analyzes your web browsing habits to make you more product
 * Track how long you are actively on the website, vs just have it open in a tab
 * tagging websites as educational vs music vs games vs social media etc...
 
-## bug notes ##
+## bugs ##
 * Adding new tabs sometimes into database? sometimes?
 
 ## to-fix ##

@@ -46,6 +46,9 @@ var addToDatabase = function(entryObject) {
 };
 var readDatabase = function() {
     var lifetime=0;
+    var viewed=0;
+    //{domain: {timesAccessed, totalTime} }
+    var domainFreqs = {};
     console.log('readDatabase DOM refresh.');
     //Reset the table.
     document.getElementById('entryTable').innerHTML = 
@@ -63,13 +66,54 @@ var readDatabase = function() {
 	    addEntryToTable(cursor.value);
 	    //Increment lifetime.
 	    lifetime+=cursor.value.totalTime;
+	    viewed+=1;
+	    var domain = cursor.value.domain;
+	    var cursorTotalTime = cursor.value.totalTime;
+
+	    if(domain in domainFreqs) {
+		//Increment times accessed by 1.
+		domainFreqs[domain].timesAccessed+=1;
+		//Add the time for that instance.
+		domainFreqs[domain].totalTime+=cursorTotalTime;
+	    } else {
+		//Create new entry for the new domain.
+		domainFreqs[domain] = {timesAccessed:1,
+				       totalTime:cursorTotalTime
+				      };
+	    }
+	    
 	    cursor.continue();
 	} else {
 	    document.getElementById('lifetime').innerHTML=lifetime;
+	    var unique = Object.keys(domainFreqs).length;
+	    document.getElementById('unique').innerHTML=unique;
+	    document.getElementById('viewed').innerHTML=viewed;
+	    console.log(domainFreqs);
+	    processFreqsTable(domainFreqs);
 	    console.log('End of database read.');
 	}
     };
 };
+
+
+var processFreqsTable = function(freqsTable) {
+    var table = document.getElementById('statsTable');
+    for(var i in freqsTable) {
+	var row = table.insertRow(table.rows.length);
+	
+	var domain = document.createTextNode(i);
+	var timeAccessed = document.createTextNode(freqsTable[i].timesAccessed);
+	var totalTime = document.createTextNode(freqsTable[i].totalTime);
+	
+	var domainCell = row.insertCell(0);
+	domainCell.appendChild(domain);
+	var timeAccessedCell = row.insertCell(1);
+	timeAccessedCell.appendChild(timeAccessed);
+	var totalTimeCell = row.insertCell(2);
+	totalTimeCell.appendChild(totalTime);
+    }
+};
+
 
 //Listener: connects with background.js
 //message contains an entryObject.

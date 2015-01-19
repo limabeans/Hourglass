@@ -16,16 +16,29 @@
     </div>
 
     <div id="left">
-      <table id="entryTable" border="2">
+      <b>Some statistics. Currently generated at run-time. Create a database for this!</b><br>
+      <b>Total active time on the web:</b> <span id="lifetime">0</span>ms
+      <b>Number of unique domains accessed:</b> <span id="unique">0</span><br>
+      <b>Number of tabs viewed or opened:</b> <span id="viewed">0</span>
+      <table id="statsTable" border="2" width="300">
+	<tr>
+	  <th>domain</th><th>times accessed</th><th>time (ms)</th>
+	</tr>
+      </table>
+      </ul>
+    </div>
+
+
+
+    <div id="right">
+      <table id="entryTable" border="2" width="600">
 	<tr>
 	  <th>id</th> <th>total time (ms)</th> <th>domain</th>
 	</tr>
       </table>
       <script src="timelog.js"></script>
       <script src="database.js"></script>
-    </div>
-    <div id="right">
-      <b>Total active time on the web:</b> <span id="lifetime">0</span>ms
+      <script src="statsDB.js"></script>
     </div>
 
   </body>

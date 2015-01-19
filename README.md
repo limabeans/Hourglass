@@ -1,5 +1,5 @@
 # Hourglass #
-google chrome extension that tracks statistics of the websites you've been on
+Chrome extension that analyzes your web browsing habits to make you more productive.
 
 ## random todos ##
 * Integrate this with google drive!@

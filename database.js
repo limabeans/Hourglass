@@ -60,7 +60,7 @@ var readDatabase = function() {
     var domainFreqs = {}; //{domain: {timesAccessed, totalTime} }
 
     //Reset the tables.
-    document.getElementById('entryTable').innerHTML = 
+    //document.getElementById('entryTable').innerHTML = 
 	"<tr><th>id</th> <th>total time (ms)</th> <th>domain</th></tr>";
     document.getElementById('statsTable').innerHTML = 
 	"<tr> <th>domain</th><th>times accessed</th><th>time (ms)</th></tr>";
@@ -73,7 +73,7 @@ var readDatabase = function() {
 	if(cursor) {
 	    //Adding to table with all entries.
 	    var entryText = cursor.value.key+' ('+cursor.value.totalTime+'ms) - '+cursor.value.domain;
-	    addEntryToTable(cursor.value);
+	    //addEntryToTable(cursor.value);
 
 	    //Increment lifetime, increment viewed, and add to domainFreqs.
 	    lifetime+=cursor.value.totalTime;
@@ -149,4 +149,9 @@ document.getElementById('wipe').addEventListener('click',wipe);
 document.addEventListener('DOMContentLoaded', function() {
     initDatabase('entryDB',1);
     //Need to find a way to read the database at startup.
+});
+
+var select = document.getElementById('select');
+document.addEventListener('change', function() {
+    var value = select.value;
 });

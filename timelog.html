@@ -18,6 +18,13 @@
     </div>
 
     <div id="left">
+      <select id="select">
+	<option value="lifetimeStats">life time stats</option>
+	<option value="statstable">stats table</option>
+      </select>
+      <br>
+      <div id="selectarea">
+      </div>
       <b>Some statistics. Currently generated at run-time. Create a database for this!</b><br>
       <b>Total active time on the web:</b> <span id="lifetime">0</span>ms
       <b>Number of unique domains accessed:</b> <span id="unique">0</span><br>
@@ -30,22 +37,23 @@
       </table>
     </div>
 
-    <div id="middle">
+    <div id="right">
       <div class="ct-chart ct-perfect-fourth"></div>
     </div>
 
-    <div id="right">
+<!--    <div id="right">
       <table id="entryTable" border="2" width="400">
 	<tr>
 	  <th>id</th> <th>total time (ms)</th> <th>domain</th>
 	</tr>
-      </table>
+      </table> 
+</div> -->
       <script src="pie.js"></script>
       <script src="timelog.js"></script>
       <script src="database.js"></script>
       <script src="statsDB.js"></script>
 
-    </div>
+
 
   </body>
 </html>

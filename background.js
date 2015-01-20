@@ -94,11 +94,76 @@ ignoreTheseWebsites = function(tab) {
     return false;
 };
 
+var toDay = function(num) {
+    switch (num) {
+    case 0:
+        return "Sunday";
+    case 1:
+        return "Monday";
+    case 2:
+        return "Tuesday";
+    case 3:
+        return "Wednesday";
+    case 4:
+        return "Thursday";
+    case 5:
+        return "Friday";
+    case 6:
+        return "Saturday";
+    }
+};
+
+var toMonth = function(num) {
+    switch(num) {
+    case 0:
+	return "January";
+    case 1:
+	return "February";
+    case 2:
+	return "March";
+    case 3:
+	return "April";
+    case 4:
+	return "May";
+    case 5:
+	return "June";
+    case 6:
+	return "July";
+    case 7:
+	return "August";
+    case 8:
+	return "September";
+    case 9:
+	return "October";
+    case 10:
+	return "November";
+    case 11:
+	return "December";
+    }
+};
+
+
 //starte and ended Objects become dead once sent through Port.
 function Entry(created, totTime, d, u, t) {
     this.key = created.getTime();
     //Ensure that this.started is of type String.
     this.started = Date(created); 
+    //Date fields. Gonna be useful to index this stuff.
+    //Range of day: 0-6
+    this.day = created.getDay();
+    this.dayOfMonth = created.getDate();
+    //Range of month: 0-11
+    this.month = created.getMonth();
+    this.year = created.getFullYear();
+    //Range of hour: 0-23
+    this.hour = created.getHours();
+    //Range of minute: 0-59
+    this.minute = created.getMinutes();
+    //Range of second: 0-59
+    this.second = created.getSeconds();
+    //Range of millisecond: 0-999
+    this.millisecond = created.getMilliseconds();
+    
     this.ended = null;
     this.totalTime = totTime;
     this.domain = d;

@@ -2,6 +2,8 @@
 //Global variable for database. 
 //Probably have to refactor this sometime.
 var entryDB;
+
+//Function that deletes everything in entryDB.
 var wipe = function() {
     indexedDB.deleteDatabase('entryDB');
     console.log('entryDB wiped');
@@ -9,6 +11,8 @@ var wipe = function() {
     location.reload(true);
 };
 
+//Function that initializes the database.
+//Listening to DOMContentLoaded.
 var initDatabase = function(name, version) {
     var request = indexedDB.open(name, version);
     request.onerror = function(e) {
@@ -31,6 +35,8 @@ var initDatabase = function(name, version) {
     };
 };
 
+//Adds entryObjects to entryDB database.
+//It runs once receiving a message from background.js.
 var addToDatabase = function(entryObject) {
     var objectStore = entryDB.transaction('everyday', "readwrite").objectStore('everyday');
     var request = objectStore.add(entryObject);
@@ -42,35 +48,40 @@ var addToDatabase = function(entryObject) {
 	console.log('fail to add');
     };
 };
+
+//readDatabase reads the contents in entryDB and also
+//does DOM manipulation to generate what the user sees.
+//This isn't very MVC, but I wasn't able to get the database
+//to be backend. :(
 var readDatabase = function() {
+
     var lifetime=0;
     var viewed=0;
-    //{domain: {timesAccessed, totalTime} }
-    var domainFreqs = {};
-    console.log('readDatabase DOM refresh.');
+    var domainFreqs = {}; //{domain: {timesAccessed, totalTime} }
+
     //Reset the tables.
     document.getElementById('entryTable').innerHTML = 
 	"<tr><th>id</th> <th>total time (ms)</th> <th>domain</th></tr>";
     document.getElementById('statsTable').innerHTML = 
 	"<tr> <th>domain</th><th>times accessed</th><th>time (ms)</th></tr>";
 
+    //Iterating through everything in 'everyday'.
     var trans = entryDB.transaction('everyday');
     var objectStore = trans.objectStore('everyday');
     objectStore.openCursor().onsuccess = function(event) {
 	var cursor = event.target.result;
 	if(cursor) {
-	    //Note: IndexedDB didn't store toString().
-	    //Note: Ports don't seem to play well w/ toString() either.
+	    //Adding to table with all entries.
 	    var entryText = cursor.value.key+' ('+cursor.value.totalTime+'ms) - '+cursor.value.domain;
-	    console.log(entryText);
-
 	    addEntryToTable(cursor.value);
-	    //Increment lifetime.
+
+	    //Increment lifetime, increment viewed, and add to domainFreqs.
 	    lifetime+=cursor.value.totalTime;
 	    viewed+=1;
 	    var domain = cursor.value.domain;
 	    var cursorTotalTime = cursor.value.totalTime;
 
+	    //Increment stuff or create new entry in domainFreqs.
 	    if(domain in domainFreqs) {
 		//Increment times accessed by 1.
 		domainFreqs[domain].timesAccessed+=1;
@@ -81,24 +92,27 @@ var readDatabase = function() {
 		domainFreqs[domain] = {timesAccessed:1,
 				       totalTime:cursorTotalTime
 				      };
-		//Generate pie animation.
-		createPie(domainFreqs);
 	    }
-	    
 	    cursor.continue();
 	} else {
+	    //We are done now!
+
+	    //Generate pie animation.
+	    createPie(domainFreqs);
+	    //Total time count.
 	    document.getElementById('lifetime').innerHTML=lifetime;
+	    //Count of unique domains viewed.
 	    var unique = Object.keys(domainFreqs).length;
 	    document.getElementById('unique').innerHTML=unique;
+	    //Count of all domains viewed.
 	    document.getElementById('viewed').innerHTML=viewed;
-	    console.log(domainFreqs);
 	    processFreqsTable(domainFreqs);
-	    console.log('End of database read.');
 	}
     };
 };
 
 
+//DOMs the frequencies table. Called from readDatabase.
 var processFreqsTable = function(freqsTable) {
     var table = document.getElementById('statsTable');
     for(var i in freqsTable) {
@@ -134,6 +148,5 @@ document.getElementById('wipe').addEventListener('click',wipe);
 
 document.addEventListener('DOMContentLoaded', function() {
     initDatabase('entryDB',1);
-    console.log('initDatabase from domcontentloaded.');
     //Need to find a way to read the database at startup.
 });
